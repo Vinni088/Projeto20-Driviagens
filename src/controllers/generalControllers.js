@@ -1,9 +1,12 @@
-/*import { generalServices } from "../services/generalServices.js"*/
+import { generalServices } from "../services/generalServices.js"
 import httpStatus from "http-status";
 
 
 export async function postPassengers(req, res) {
-    res.send("Esta é a rota post para '/passangers'")
+    const { firstName, lastName } = req.body;
+
+    let resposta = await generalServices.postPassengerService( firstName, lastName )
+    res.send(resposta)
 }
 
 export async function postCities(req, res) {

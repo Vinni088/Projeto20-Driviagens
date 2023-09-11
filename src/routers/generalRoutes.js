@@ -1,5 +1,11 @@
 import { Router } from "express";
 import { validateSchema } from "../middlewares/validateSchema.js";
+import { 
+    passangerSchema, 
+    citySchema, 
+    flightSchema, 
+    travelSchema 
+} from "../schemas/generalSchemas.js"
 import {
     postPassengers, 
     postCities, 
@@ -11,10 +17,10 @@ import {
 
 const generalRoutes = Router();
 
-generalRoutes.post("/passengers", postPassengers);
-generalRoutes.post("/cities", postCities);
-generalRoutes.post("/flights", postFlights);
-generalRoutes.post("/travels", postTravels);
+generalRoutes.post("/passengers", validateSchema(passangerSchema), postPassengers);
+generalRoutes.post("/cities", validateSchema(citySchema), postCities);
+generalRoutes.post("/flights", validateSchema(flightSchema), postFlights);
+generalRoutes.post("/travels", validateSchema(travelSchema), postTravels);
 generalRoutes.get("/flights", getFlights);
 generalRoutes.get("/passengers/travels", getPassangersTravels);
 
