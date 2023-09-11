@@ -41,7 +41,9 @@ export async function getFlights(req, res) {
 }
 
 export async function getPassangersTravels(req, res) {
-    let resposta = await generalServices.getPassengerTravelsService()
+    const { name } = req.query;
+
+    let resposta = await generalServices.getPassengerTravelsService(name)
 
     res.send(resposta)
 }

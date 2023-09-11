@@ -73,6 +73,22 @@ async function selectPassengersTravels() {
 
     return travels;
 }
+async function selectPassengersTravelsByName(nome) {
+  let travels = await db.query(`
+  SELECT 
+      "passengers"."firstName", 
+      "passengers"."lastName", 
+      CAST(COUNT("travels".*) AS INTEGER) AS "travels"
+  FROM "passengers"
+  LEFT JOIN  "travels"
+      ON "travels"."passengerId" = "passengers"."id"
+  WHERE "passengers"."firstName" ILIKE '%${nome}%' OR "passengers"."lastName" ILIKE '%${nome}%'
+  GROUP BY "passengers"."id"
+  ORDER BY travels DESC
+  `)
+
+  return travels;
+}
 
 export const generalRepository = {
     selectFrom,
@@ -81,5 +97,6 @@ export const generalRepository = {
     insertIntoFlights,
     insertIntoTravels,
     selectFlightsProperly,
-    selectPassengersTravels
+    selectPassengersTravels,
+    selectPassengersTravelsByName
 };
