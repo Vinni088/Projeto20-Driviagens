@@ -61,9 +61,14 @@ async function postFlightService(origin, destination, date) {
 
     if (Number(dateSplit[2]) < Number(nowSplit[2])) {
         throw errors.unprocessableEntity("data: ano");
-    } else if (Number(dateSplit[1]) < Number(nowSplit[1])) {
+    } else if (
+        (Number(dateSplit[2]) === Number(nowSplit[2])) && 
+        (Number(dateSplit[1]) < Number(nowSplit[1]))) {
         throw errors.unprocessableEntity("data: mês");
-    } else if (Number(dateSplit[0]) < Number(nowSplit[0])) {
+    } else if ( 
+        (Number(dateSplit[2]) === Number(nowSplit[2])) && 
+        (Number(dateSplit[1]) === Number(nowSplit[1])) && 
+        (Number(dateSplit[0]) < Number(nowSplit[0]))) {
         throw errors.unprocessableEntity("data: dia");
     }
     let novadata = dateSplit[1] + "-" + dateSplit[0] + "-" + dateSplit[2]
