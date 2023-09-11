@@ -15,8 +15,12 @@ export default function errorHandler(error, req, res, next) {
         return res.status(httpStatus.UNPROCESSABLE_ENTITY).send(error.message);
     }
 
-    if (err.type === "invalidId") {
-        return res.status(httpStatus.UNPROCESSABLE_ENTITY).send(err.message)
+    if (error.type === "invalidId") {
+        return res.status(httpStatus.UNPROCESSABLE_ENTITY).send(error.message)
+    }
+
+    if (error.type === "unprocessableEntity") {
+        return res.status(httpStatus.UNPROCESSABLE_ENTITY).send(error.message)
     }
 
     res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Sorry, something went wrong 😢");

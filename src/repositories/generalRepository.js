@@ -24,8 +24,18 @@ async function insertIntoCities(name) {
     `, [name])
 }
 
+async function insertIntoFlights(idOrigem, idDestino, data) {
+    let insert = await db.query(`
+    INSERT INTO "flights" 
+      (origin, destination, date)
+    VALUES 
+      ($1, $2, $3);
+    `, [idOrigem, idDestino, data])
+}
+
 export const generalRepository = {
     selectFrom,
     insertIntoPassangers,
-    insertIntoCities
+    insertIntoCities,
+    insertIntoFlights
 };

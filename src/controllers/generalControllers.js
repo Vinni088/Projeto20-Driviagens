@@ -6,6 +6,7 @@ export async function postPassengers(req, res) {
     const { firstName, lastName } = req.body;
 
     let resposta = await generalServices.postPassengerService( firstName, lastName )
+
     res.send(resposta)
 }
 
@@ -18,7 +19,11 @@ export async function postCities(req, res) {
 }
 
 export async function postFlights(req, res) {
-    res.send("Esta é a rota post para '/flights'")
+    const { origin, destination, date } = req.body;
+
+    let resposta = await generalServices.postFlightService(origin, destination, date)
+
+    res.send(resposta)
 }
 
 export async function postTravels(req, res) {

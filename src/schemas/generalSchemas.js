@@ -13,14 +13,14 @@ export const citySchema = joi.object({
 });
 
 export const flightSchema = joi.object({
-  origin: joi.number().integer().min(1),
-  destiny: joi.number().integer().min(1),
-  date: joi.date().format('DD/MM/YYYY').required()
+  origin: joi.number().integer().min(1).required(),
+  destination: joi.number().integer().min(1).required(),
+  date: joi.date().format('DD-MM-YYYY').required()
 });
 
 export const travelSchema = joi.object({
-  passengerId: joi.number().integer().min(1),
-	flightId: joi.number().integer().min(1)
+  passengerId: joi.number().integer().min(1).required(),
+	flightId: joi.number().integer().min(1).required()
 });
 
 

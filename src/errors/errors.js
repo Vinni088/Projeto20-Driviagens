@@ -12,6 +12,13 @@ export function conflict(resource) {
     }
 }
 
+export function incoherent(resource) {
+    return {
+        type: "conflict", 
+        message: `Incoerencia quanto ${resource ? "a " + resource : "ao Item"}`
+    }
+}
+
 export function incompleteData() {
     return {
         type: "incompleteData",
@@ -26,4 +33,11 @@ export function invalidId() {
     }
 }
 
-export const errors = {notFound, conflict, incompleteData, invalidId}
+export function unprocessableEntity(resource) {
+    return {
+        type: "unprocessableEntity",
+        message: `Incoerencia quanto ${resource ? "a " + resource : "ao Item"}`
+    }
+}
+
+export const errors = {notFound, conflict, incoherent, incompleteData, unprocessableEntity, invalidId}
