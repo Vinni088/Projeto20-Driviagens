@@ -2,12 +2,12 @@ import { db } from "../database/database.connection.js"
 
 
 async function selectFrom(tabela) {
-    let passangers = db.query(`SELECT * FROM ${tabela};`)
-    return passangers;
+  let passangers = db.query(`SELECT * FROM ${tabela};`)
+  return passangers;
 }
 
 async function insertIntoPassangers(name1, name2) {
-    let insert = await db.query(`
+  let insert = await db.query(`
     INSERT INTO "passengers" 
       ("firstName","lastName")
     VALUES 
@@ -16,7 +16,7 @@ async function insertIntoPassangers(name1, name2) {
 }
 
 async function insertIntoCities(name) {
-    let insert = await db.query(`
+  let insert = await db.query(`
     INSERT INTO "cities" 
       (name)
     VALUES 
@@ -25,7 +25,7 @@ async function insertIntoCities(name) {
 }
 
 async function insertIntoFlights(idOrigem, idDestino, data) {
-    let insert = await db.query(`
+  let insert = await db.query(`
     INSERT INTO "flights" 
       (origin, destination, date)
     VALUES 
@@ -34,7 +34,7 @@ async function insertIntoFlights(idOrigem, idDestino, data) {
 }
 
 async function insertIntoTravels(idPassageiro, idVoo) {
-    let insert = await db.query(`
+  let insert = await db.query(`
     INSERT INTO "travels" 
       ("passengerId", "flightId")
     VALUES 
@@ -43,7 +43,7 @@ async function insertIntoTravels(idPassageiro, idVoo) {
 }
 
 async function selectFlightsProperly() {
-    let flights = await db.query(`
+  let flights = await db.query(`
     SELECT 
         "flights".id, 
         (SELECT "cities".name FROM "cities" WHERE "cities".id = "flights"."origin") AS "origin",
@@ -56,10 +56,11 @@ async function selectFlightsProperly() {
     ORDER BY "flights".id
     `)
 
-    return flights;
+  return flights;
 }
+
 async function selectPassengersTravels() {
-    let travels = await db.query(`
+  let travels = await db.query(`
     SELECT 
         "passengers"."firstName", 
         "passengers"."lastName", 
@@ -71,8 +72,9 @@ async function selectPassengersTravels() {
     ORDER BY travels DESC
     `)
 
-    return travels;
+  return travels;
 }
+
 async function selectPassengersTravelsByName(nome) {
   let travels = await db.query(`
   SELECT 
@@ -91,12 +93,12 @@ async function selectPassengersTravelsByName(nome) {
 }
 
 export const generalRepository = {
-    selectFrom,
-    insertIntoPassangers,
-    insertIntoCities,
-    insertIntoFlights,
-    insertIntoTravels,
-    selectFlightsProperly,
-    selectPassengersTravels,
-    selectPassengersTravelsByName
+  selectFrom,
+  insertIntoPassangers,
+  insertIntoCities,
+  insertIntoFlights,
+  insertIntoTravels,
+  selectFlightsProperly,
+  selectPassengersTravels,
+  selectPassengersTravelsByName
 };

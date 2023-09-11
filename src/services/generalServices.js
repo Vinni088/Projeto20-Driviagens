@@ -66,8 +66,8 @@ async function postFlightService(origin, destination, date) {
     } else if (Number(dateSplit[0]) < Number(nowSplit[0])) {
         throw errors.unprocessableEntity("data: dia");
     }
-
-    await generalRepository.insertIntoFlights(origin, destination, date);
+    let novadata = dateSplit[1] + "-" + dateSplit[0] + "-" + dateSplit[2]
+    await generalRepository.insertIntoFlights(origin, destination, novadata);
 
     return (" Vôo registrado com sucesso");
 }
@@ -88,7 +88,8 @@ async function postTravelsService(passengerId, flightId) {
     return ("Passageiro registrado com sucesso neste vôo");
 }
 
-async function getFlightsService(passengerId, flightId) {
+async function getFlightsService( origin, destination ) {
+    
     let flights = (await generalRepository.selectFlightsProperly()).rows;
 
     return (flights);
