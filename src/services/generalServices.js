@@ -1,18 +1,33 @@
 import { generalRepository } from "../repositories/generalRepository.js";
 import { errors } from "../errors/errors.js";
 
-export default async function postPassengerService(firstName, lastName) {
+async function postPassengerService(firstName, lastName) {
 
     let passengers = (await generalRepository.selectFrom("passengers")).rows;
 
     for (let i = 0; i < passengers.length; i++) {
         if (passengers[i].firstName == firstName && passengers[i].lastName == lastName) {
-            throw errors.conflict("Passageiro");
+            throw errors.conflict("Este passageiro");
         }
     }
-    let insert = (await generalRepository.insertIntoPassangers(firstName, lastName))
+    await generalRepository.insertIntoPassangers(firstName, lastName);
 
     return("Passageiro registrado com sucesso");
+}
+
+async function postCityService(name) {
+
+    let cities = (await generalRepository.selectFrom("cities")).rows;
+
+    for (let i = 0; i < cities.length; i++) {
+        if (cities[i].name.toLowerCase() == name.toLowerCase()) {
+            throw errors.conflict("Esta cidade");
+        }
+    }
+
+    await generalRepository.insertIntoCities(name.toLowerCase());
+
+    return("Cidade registrada com sucesso");
 }
 
 
@@ -21,5 +36,6 @@ export default async function postPassengerService(firstName, lastName) {
 
 
 export const generalServices = {
-    postPassengerService
+    postPassengerService,
+    postCityService
   };

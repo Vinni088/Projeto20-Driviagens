@@ -15,7 +15,17 @@ async function insertIntoPassangers(name1, name2) {
     `, [name1, name2])
 }
 
+async function insertIntoCities(name) {
+    let insert = await db.query(`
+    INSERT INTO "cities" 
+      (name)
+    VALUES 
+      ($1);
+    `, [name])
+}
+
 export const generalRepository = {
     selectFrom,
-    insertIntoPassangers
+    insertIntoPassangers,
+    insertIntoCities
 };

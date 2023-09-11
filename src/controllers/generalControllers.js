@@ -10,7 +10,11 @@ export async function postPassengers(req, res) {
 }
 
 export async function postCities(req, res) {
-    res.send("Esta é a rota post para '/cities'")
+    const { name } = req.body;
+
+    let resposta = await generalServices.postCityService(name)
+
+    res.send(resposta)
 }
 
 export async function postFlights(req, res) {
