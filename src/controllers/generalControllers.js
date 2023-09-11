@@ -27,14 +27,22 @@ export async function postFlights(req, res) {
 }
 
 export async function postTravels(req, res) {
-    res.send("Esta é a rota post para '/travels'")
+    const { passengerId, flightId } = req.body;
+
+    let resposta = await generalServices.postTravelsService( passengerId, flightId )
+
+    res.send(resposta)
 }
 
 export async function getFlights(req, res) {
-    res.send("Esta é a rota get para '/flights'")
+    let resposta = await generalServices.getFlightsService()
+
+    res.send(resposta)
 }
 
 export async function getPassangersTravels(req, res) {
-    res.send("Esta é a rota get para '/passengers/travels'")
+    let resposta = await generalServices.getPassengerTravelsService()
+
+    res.send(resposta)
 }
 

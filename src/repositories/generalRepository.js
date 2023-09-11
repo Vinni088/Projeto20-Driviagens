@@ -33,9 +33,53 @@ async function insertIntoFlights(idOrigem, idDestino, data) {
     `, [idOrigem, idDestino, data])
 }
 
+async function insertIntoTravels(idPassageiro, idVoo) {
+    let insert = await db.query(`
+    INSERT INTO "travels" 
+      ("passengerId", "flightId")
+    VALUES 
+      ($1, $2);
+    `, [idPassageiro, idVoo])
+}
+
+async function selectFlightsProperly() {
+    let flights = await db.query(`
+    SELECT 
+        "flights".id, 
+        (SELECT "cities".name FROM "cities" WHERE "cities".id = "flights"."origin") AS "origin",
+        (SELECT "cities".name FROM "cities" WHERE "cities".id = "flights"."destination") AS "destination",
+        TO_CHAR("flights".date, 'DD-MM-YYYY') AS date
+    FROM flights
+    LEFT JOIN  "cities"
+        ON "cities".id = "flights".origin
+    GROUP BY "flights".id
+    ORDER BY "flights".id
+    `)
+
+    return flights;
+}
+async function selectPassengersTravels() {
+    let travels = await db.query(`
+    SELECT 
+        "passengers"."firstName", 
+        "passengers"."lastName", 
+        CAST(COUNT("travels".*) AS INTEGER) AS "travels"
+    FROM "passengers"
+    LEFT JOIN  "travels"
+        ON "travels"."passengerId" = "passengers"."id"
+    GROUP BY "passengers"."id"
+    ORDER BY travels DESC
+    `)
+
+    return travels;
+}
+
 export const generalRepository = {
     selectFrom,
     insertIntoPassangers,
     insertIntoCities,
-    insertIntoFlights
+    insertIntoFlights,
+    insertIntoTravels,
+    selectFlightsProperly,
+    selectPassengersTravels
 };

@@ -72,11 +72,47 @@ async function postFlightService(origin, destination, date) {
     return(" Vôo registrado com sucesso");
 }
 
+async function postTravelsService(passengerId, flightId) {
+    let passengers = (await generalRepository.selectFrom("passengers")).rows;
+        passengers = passengers.map( obj => obj.id);
+    let flights = (await generalRepository.selectFrom("flights")).rows;
+        flights = flights.map( obj => obj.id);
+    if (!passengers.includes(passengerId)) {
+        throw errors.notFound("Este passageiro");
+    } else if (!flights.includes(flightId)) {
+        throw errors.notFound("Este vôo");
+    }
+
+    await generalRepository.insertIntoTravels(passengerId, flightId);
+
+    return("Passageiro registrado com sucesso neste vôo");
+}
+
+async function getFlightsService(passengerId, flightId) {
+    let flights = (await generalRepository.selectFlightsProperly()).rows;
+
+    return(flights);
+}
+
+async function getPassengerTravelsService() {
+    let passengers = (await generalRepository.selectPassengersTravels()).rows;
+
+    passengers = passengers.map( pas => { 
+        return {
+        passenger: pas.firstName + " " + pas.lastName, 
+        travels: pas.travels
+        }})
+
+    return(passengers);
+}
 
 
 
 export const generalServices = {
     postPassengerService,
     postCityService,
-    postFlightService
+    postFlightService,
+    postTravelsService,
+    getFlightsService,
+    getPassengerTravelsService
   };
